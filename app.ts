@@ -22,28 +22,3 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
 
-const BASE_URL = "https://reisen-reisen.herokuapp.com/";
-
-const form = document.querySelector('form');
-
-const email = document.querySelector('input[name=email]');
-const password = document.querySelector('input[name=passwort]')
-
-const loginError = document.querySelector('.loginFailed');
-
-const login = async (email: any, password: String) => {
-    const loginUrl = `${BASE_URL}/users`;
-
-    const response = await fetch(loginUrl, {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email, password})
-    });
-    return response.status === 200;
-}
-
-
