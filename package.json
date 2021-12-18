@@ -7,7 +7,7 @@
     "test": "jest",
     "test:api": "jest api-tests/",
     "postinstall": "tsc",
-    "start": " ts-node-dev index.ts",
+    "start": " ts-node-dev app.ts",
     "build": "tsc",
     "db": "knex",
     "create-user": "ts-node scripts/create-user.ts"
