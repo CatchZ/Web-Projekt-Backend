@@ -1,5 +1,7 @@
 import { Request,Response } from "express";
-import {Knex} from "knex";
+import {knex as knexDriver} from "knex";
+import config from "./knexfile";
+
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
@@ -7,12 +9,8 @@ const port = process.env.PORT || 3000
 
 const redis = require("redis");
 const client = redis.createClient({url: process.env.REDIS_URL});
-// @ts-ignore
-const knex = Knex({
-    client: "postgresql",
-    connection: "postgresql://user@localhost:5432/expenses",
-})
 
+const knex = knexDriver(config);
 
 //app.get('/', (req: { headers: any }, res: { send: (arg0: { headers: any }) => void }) => {
 app.get('/', (req: Request, res: Response) => {
