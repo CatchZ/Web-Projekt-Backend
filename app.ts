@@ -1,10 +1,15 @@
+import { Request,Response } from "express";
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
-require('./init_redis');
 
+//require('./init_redis');
 
-app.get('/', (req: { headers: any }, res: { send: (arg0: { headers: any }) => void }) => {
+const redis = require("redis");
+const client = redis.createClient({url: process.env.REDIS_URL});
+
+//app.get('/', (req: { headers: any }, res: { send: (arg0: { headers: any }) => void }) => {
+app.get('/', (req: Request, res: Response) => {
     res.send({headers: req.headers})
 })
 app.listen(port, () => {
