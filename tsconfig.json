@@ -1,4 +1,4 @@
-{
+/*{
   "compilerOptions": {
     "baseUrl": "./",
     "module": "commonjs",
@@ -13,4 +13,15 @@
   "include": [
     "./app.ts"
   ]
+}
+*/
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "ts-node": {
+    "files": true
+  },
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./build",
+  }
 }
