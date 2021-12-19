@@ -100,7 +100,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     const payload = req.body;
-    const sessionId = await authService.login(payload.email, payload.password);
+    const sessionId = await authService.login(payload.username, payload.password);
     if (!sessionId) {
         res.status(401);
         return res.json({message: "Bad email or password"});
