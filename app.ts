@@ -27,6 +27,7 @@ app.use(cookieParser());
 app.get('/', async (req, res) => {
     res.send({headers: req.headers});
 })
+
 /*
 const checkLogin = async (
     req: Request,
