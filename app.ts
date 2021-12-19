@@ -101,7 +101,7 @@ app.post("/login", async (req, res) => {
 app.get("/loggedInUser", checkLogin, async (req, res) => {
     const session = req.cookies.session;
     const email = await authService.getUserEmailForSession(session);
-    return res.json({email});
+    return res.json({"email": email});
 });
 
 app.use(
