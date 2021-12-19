@@ -3,12 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.down = exports.up = void 0;
 async function up(knex) {
     return knex.schema
+        /*
         .createTable('users', function (table) {
         table.uuid('id').primary();
         table.string('name', 255).notNullable();
         table.string('password', 255).notNullable();
-    })
-        .createTable('journeys', function (table) {
+    })*/
+        .createTable('reisen', function (table) {
         table.uuid('id').primary();
         table.string('reisename', 255).notNullable();
         table.string('reiseziel', 255).notNullable();
@@ -19,7 +20,7 @@ async function up(knex) {
 exports.up = up;
 async function down(knex) {
     return knex.schema
-        .dropTableIfExists('journeys');
+        .dropTableIfExists('reisen');
 }
 exports.down = down;
 

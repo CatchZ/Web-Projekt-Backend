@@ -1,8 +1,8 @@
 import express, {Request} from "express";
 import cookieParser from "cookie-parser";
-//import ReiseService from "./services/ReiseService";
+import ReiseService from "./services/ReiseService";
 import {HttpError} from "express-openapi-validator/dist/framework/types";
-//import AuthService from "./services/AuthService";
+import AuthService from "./services/AuthService";
 import {knex as knexDriver} from "knex";
 import cors from "cors";
 import config from "./knexfile";
@@ -11,8 +11,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const knex = knexDriver(config);
-//const reiseService = new ReiseService(knex);
-//const authService = new AuthService();
+const reiseService = new ReiseService(knex);
+const authService = new AuthService();
 
 app.use(
     cors({
@@ -28,7 +28,7 @@ app.get('/', async (req, res) => {
     res.send({headers: req.headers});
 })
 
-/*
+
 const checkLogin = async (
     req: Request,
     res: express.Response,
@@ -49,7 +49,7 @@ const checkLogin = async (
     next();
 };
 
-app.get("/expenses", checkLogin, async (req, res) => {
+app.get("/reisen", checkLogin, async (req, res) => {
     const session = req.cookies.session;
     const email = await authService.getUserEmailForSession(session);
     //reiseService.getAll(email).then((total) => res.send(total));
@@ -82,7 +82,7 @@ app.post("/reisen/:reiseid", checkLogin, async (req, res) => {
         })
     });
 });
-
+/*
 app.post("/register", async (req, res) => {
     const payload = req.body;
     await authService.create({email: payload.email as string, password: payload.password as string}).then(() => {
@@ -95,6 +95,7 @@ app.post("/register", async (req, res) => {
         });
 
 });
+*/
 
 app.post("/login", async (req, res) => {
     const payload = req.body;
@@ -113,7 +114,6 @@ app.post("/login", async (req, res) => {
 });
 
 
- */
 app.use(
     (
         err: HttpError,
