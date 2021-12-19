@@ -104,7 +104,6 @@ app.get("/loggedInUser", checkLogin, async (req, res) => {
     return res.json({email});
 });
 
-
 app.use(
     (
         err: HttpError,
