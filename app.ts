@@ -37,12 +37,12 @@ const checkLogin = async (
     const session = req.cookies.session;
     if (!session) {
         res.status(401);
-        return res.json({message: "You need to be logged in to see this page."});
+        return res.json({message: "Du must angemeldet sein, um diese Seite zu sehen."});
     }
     const email = await authService.getUserEmailForSession(session);
     if (!email) {
         res.status(401);
-        return res.json({message: "You need to be logged in to see this page."});
+        return res.json({message: "Du must angemeldet sein, um diese Seite zu sehen."});
     }
     req.userEmail = email;
 
@@ -66,7 +66,7 @@ app.delete("/journeys/:reiseid", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     reiseService.delete(id).then(() => {
         res.status(204);
-        return res.json({message:"Reise wurde gelöscht!"});
+        return res.json({message:"Reise gelöscht!"});
     });
 });
 
@@ -78,7 +78,7 @@ app.post("/journeys/:reiseid", checkLogin, async (req, res) => {
     reiseService.delete(id).then(() => {
         reiseService.add(payload,email).then(()=>{
             res.status(204);
-            return res.json({message:"Reise wurde editiert!"});
+            return res.json({message:"Reise aktualisiert"});
         })
     });
 });
@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
     const sessionId = await authService.login(payload.username, payload.password);
     if (!sessionId) {
         res.status(401);
-        return res.json({message: "Bad email or password"});
+        return res.json({message: "Email oder Passwort falsch"});
     }
     res.cookie("session", sessionId, {
         maxAge: 60 * 60 * 1000,
