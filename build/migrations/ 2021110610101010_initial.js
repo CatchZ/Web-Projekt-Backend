@@ -19,6 +19,6 @@ async function up(knex) {
 exports.up = up;
 async function down(knex) {
     return knex.schema
-        .dropTableIfExists('expenses');
+        .dropTableIfExists('journeys');
 }
 exports.down = down;
