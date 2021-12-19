@@ -28,7 +28,7 @@ app.get('/', async (req, res) => {
     res.send({headers: req.headers});
 })
 
-
+/*
 const checkLogin = async (
     req: Request,
     res: express.Response,
@@ -48,7 +48,7 @@ const checkLogin = async (
 
     next();
 };
-
+*//*
 app.get("/reisen", checkLogin, async (req, res) => {
     const session = req.cookies.session;
     const email = await authService.getUserEmailForSession(session);
@@ -82,6 +82,7 @@ app.post("/reisen/:reiseid", checkLogin, async (req, res) => {
         })
     });
 });
+*/
 /*
 app.post("/register", async (req, res) => {
     const payload = req.body;
