@@ -83,21 +83,6 @@ app.post("/journeys/:reiseid", checkLogin, async (req, res) => {
     });
 });
 
-/*
-app.post("/register", async (req, res) => {
-    const payload = req.body;
-    await authService.create({email: payload.email as string, password: payload.password as string}).then(() => {
-        res.status(201);
-        return res.json({message: "User erstellt"});
-    })
-        .catch((e) => {
-            res.status(500);
-            return res.json({message:"Fehler, User konnte nicht erstellt werden"});
-        });
-
-});
-*/
-
 app.post("/login", async (req, res) => {
     const payload = req.body;
     const sessionId = await authService.login(payload.username, payload.password);
@@ -113,7 +98,6 @@ app.post("/login", async (req, res) => {
     });
     res.json({status: "ok"});
 });
-
 
 app.use(
     (
@@ -131,5 +115,5 @@ app.use(
 );
 
 app.listen(port, () => {
-    console.log(`Expenses app listening at http://localhost:${port}`);
+    console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
