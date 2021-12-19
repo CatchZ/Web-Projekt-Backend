@@ -28,7 +28,6 @@ app.get('/', async (req, res) => {
     res.send({headers: req.headers});
 })
 
-
 const checkLogin = async (
     req: Request,
     res: express.Response,
@@ -45,7 +44,6 @@ const checkLogin = async (
         return res.json({message: "Du must angemeldet sein, um diese Seite zu sehen."});
     }
     req.userEmail = email;
-
     next();
 };
 
@@ -98,6 +96,14 @@ app.post("/login", async (req, res) => {
     });
     res.json({status: "ok"});
 });
+
+//fuer anzeigen logged in user
+app.get("/loggedInUser", checkLogin, async (req, res) => {
+    const session = req.cookies.session;
+    const email = await authService.getUserEmailForSession(session);
+    return res.json({email});
+});
+
 
 app.use(
     (
