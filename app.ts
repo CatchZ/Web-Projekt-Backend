@@ -28,7 +28,7 @@ app.get('/', async (req, res) => {
     res.send({headers: req.headers});
 })
 
-/*
+
 const checkLogin = async (
     req: Request,
     res: express.Response,
@@ -48,29 +48,29 @@ const checkLogin = async (
 
     next();
 };
-*//*
-app.get("/reisen", checkLogin, async (req, res) => {
+
+app.get("/journeys", checkLogin, async (req, res) => {
     const session = req.cookies.session;
     const email = await authService.getUserEmailForSession(session);
-    //reiseService.getAll(email).then((total) => res.send(total));
+    reiseService.getAll(email).then((total) => res.send(total));
 });
 
-
-app.post("/reisen", checkLogin, async (req, res) => {
+app.post("/journeys", checkLogin, async (req, res) => {
     const payload = req.body;
     const session = req.cookies.session;
     const email = await authService.getUserEmailForSession(session);
     //reiseService.add(payload, email).then((newEntry) => res.send(newEntry));
 });
 
-app.delete("/reisen/:reiseid", checkLogin, async (req, res) => {
+app.delete("/journeys/:reiseid", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     reiseService.delete(id).then(() => {
         res.status(204);
         return res.json({message:"Reise wurde gelöscht!"});
     });
 });
-app.post("/reisen/:reiseid", checkLogin, async (req, res) => {
+
+app.post("/journeys/:reiseid", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     const payload = req.body;
     const session = req.cookies.session;
@@ -82,7 +82,7 @@ app.post("/reisen/:reiseid", checkLogin, async (req, res) => {
         })
     });
 });
-*/
+
 /*
 app.post("/register", async (req, res) => {
     const payload = req.body;

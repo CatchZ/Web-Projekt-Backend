@@ -1,10 +1,12 @@
 import crypto from "crypto";
 import { Knex } from "knex";
 
-type Reise = { //todo
-    date: Date;
-    name: string;
-    value: number;
+type Reise = {
+    email: string;
+    reisename: string;
+    reiseziel: string;
+    startdate: Date;
+    enddate: Date;
 };
 
 type SavedReise = Reise & {
@@ -12,36 +14,32 @@ type SavedReise = Reise & {
 };
 
 class ReiseService {
-    expenses: SavedReise[] = [];
+    journeys: SavedReise[] = [];
     private knex: Knex;
 
     constructor(knex: Knex) {
         this.knex = knex;
     }
 
-    async add(reise: Reise): Promise<SavedReise> {
+    async add(reise: Reise, email: string | null): Promise<{ enddate: Date; reiseziel: string; id: string; startdate: Date; reisename: string; email: string | null }> {
         const newReise = {
             ...reise,
+            email: email,
             id: crypto.randomUUID(),
         };
-        await this.knex("reisen").insert(newReise);
+        await this.knex("journeys").insert(newReise);
         return newReise;
     }
 
     async delete(uuid: string): Promise<void> {
-        await this.knex("reisen").where({ id: uuid }).delete();
+        await this.knex("journeys").where({ id: uuid }).delete();
     }
 
-    async getAll(): Promise<Reise[]> {
-        return this.knex("reisen");
+    async getAll(email: string | null): Promise<Reise[]> {
+        return this.knex("journeys");
     }
 
-    async getTotal(): Promise<number> {
-        const response = await this.knex<SavedReise>("reisen")
-            .sum("value")
-            .first();
-        return response?.sum || 0;
-    }
+
 }
 
 export default ReiseService;
