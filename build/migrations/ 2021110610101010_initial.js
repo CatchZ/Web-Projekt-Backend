@@ -22,3 +22,4 @@ async function down(knex) {
         .dropTableIfExists('journeys');
 }
 exports.down = down;
+
