@@ -3293,7 +3293,7 @@
   "resolved" "https://registry.npmjs.org/kleur/-/kleur-3.0.3.tgz"
   "version" "3.0.3"
 
-"knex@^0.95.13", "knex@> 0.8 < 0.96":
+"knex@^0.95.14", "knex@> 0.8 < 0.96":
   "integrity" "sha512-j4qLjWySrC/JRRVtOpoR2LcS1yBOsd7Krc6mEukPvmTDX/w11pD52Pq9FYR56/kLXGeAV8jFdWBjsZFi1mscWg=="
   "resolved" "https://registry.npmjs.org/knex/-/knex-0.95.14.tgz"
   "version" "0.95.14"

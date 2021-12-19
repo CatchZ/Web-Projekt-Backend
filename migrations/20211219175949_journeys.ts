@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
             table.string('password', 255).notNullable();
         })
          */
-        .createTable('reisen', function (table) {
+        .createTable('journeys', function (table) {
             table.uuid('id').primary();
             table.string('reisename', 255).notNullable();
             table.string('reiseziel', 255).notNullable();
@@ -18,5 +18,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 export async function down(knex: Knex): Promise<void> {
     return knex.schema
-        .dropTableIfExists('reisen');
+        .dropTableIfExists('journeys');
 }
