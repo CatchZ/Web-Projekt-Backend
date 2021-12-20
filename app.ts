@@ -38,7 +38,7 @@ const checkLogin = async (
         res.status(401);
         return res.json({message: "Du must angemeldet sein, um diese Seite zu sehen."});
     }
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     if (!email) {
         res.status(401);
         return res.json({message: "Du must angemeldet sein, um diese Seite zu sehen."});
@@ -49,14 +49,14 @@ const checkLogin = async (
 
 app.get("/journeys", checkLogin, async (req, res) => {
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     reiseService.getAll(email).then((total) => res.send(total));
 });
 
 app.post("/journeys", checkLogin, async (req, res) => {
     const payload = req.body;
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     //reiseService.add(payload, email).then((newEntry) => res.send(newEntry));
 });
 
@@ -72,7 +72,7 @@ app.post("/journeys/:reiseid", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     const payload = req.body;
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     reiseService.delete(id).then(() => {
         reiseService.add(payload,email).then(()=>{
             res.status(204);
@@ -100,8 +100,13 @@ app.post("/login", async (req, res) => {
 //fuer anzeigen logged in user
 app.get("/loggedInUser", checkLogin, async (req, res) => {
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     return res.json({"email": email});
+});
+
+app.delete("/logout", async (req, res) => {
+    const session = req.cookies.session;
+    res.clearCookie(session);
 });
 
 app.use(

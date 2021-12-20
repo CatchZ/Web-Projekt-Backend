@@ -62,7 +62,7 @@ class AuthService {
         return undefined;
     }
 
-    public async getUserEmailForSession(
+    public async getUserInSession(
         sessionId: string
     ): Promise<string | null> {
         return getAsync(sessionId);
