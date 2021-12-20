@@ -5,10 +5,11 @@ async function up(knex) {
     return knex.schema
         /*
         .createTable('users', function (table) {
-        table.uuid('id').primary();
-        table.string('name', 255).notNullable();
-        table.string('password', 255).notNullable();
-    })*/
+            table.uuid('id').primary();
+            table.string('name', 255).notNullable();
+            table.string('password', 255).notNullable();
+        })
+         */
         .createTable('reisen', function (table) {
         table.uuid('id').primary();
         table.string('reisename', 255).notNullable();
@@ -23,4 +24,3 @@ async function down(knex) {
         .dropTableIfExists('reisen');
 }
 exports.down = down;
-

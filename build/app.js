@@ -5,95 +5,76 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-//import AuthService from "./services/AuthService";
+const ReiseService_1 = __importDefault(require("./services/ReiseService"));
+const AuthService_1 = __importDefault(require("./services/AuthService"));
 const knex_1 = require("knex");
 const cors_1 = __importDefault(require("cors"));
 const knexfile_1 = __importDefault(require("./knexfile"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const knex = (0, knex_1.knex)(knexfile_1.default);
-//const reiseService = new ReiseService(knex);
-//const authService = new AuthService();
+const reiseService = new ReiseService_1.default(knex);
+const authService = new AuthService_1.default();
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
 }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-/*
-const checkLogin = async (
-    req: Request,
-    res: express.Response,
-    next: express.NextFunction
-) => {
+app.get('/', async (req, res) => {
+    res.send({ headers: req.headers });
+});
+const checkLogin = async (req, res, next) => {
     const session = req.cookies.session;
     if (!session) {
         res.status(401);
-        return res.json({message: "You need to be logged in to see this page."});
+        return res.json({ message: "Du must angemeldet sein, um diese Seite zu sehen." });
     }
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     if (!email) {
         res.status(401);
-        return res.json({message: "You need to be logged in to see this page."});
+        return res.json({ message: "Du must angemeldet sein, um diese Seite zu sehen." });
     }
     req.userEmail = email;
-
     next();
 };
-
-app.get("/expenses", checkLogin, async (req, res) => {
+app.get("/journeys", checkLogin, async (req, res) => {
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
-    //reiseService.getAll(email).then((total) => res.send(total));
+    const email = await authService.getUserInSession(session);
+    reiseService.getAll(email).then((total) => res.send(total));
 });
-
-
-app.post("/reisen", checkLogin, async (req, res) => {
+app.post("/journeys", checkLogin, async (req, res) => {
     const payload = req.body;
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
     //reiseService.add(payload, email).then((newEntry) => res.send(newEntry));
 });
-
-app.delete("/reisen/:reiseid", checkLogin, async (req, res) => {
+app.delete("/journeys/:id", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     reiseService.delete(id).then(() => {
         res.status(204);
-        return res.json({message:"Reise wurde gelöscht!"});
+        return res.json({ message: "Reise gelöscht!" });
     });
 });
-app.post("/reisen/:reiseid", checkLogin, async (req, res) => {
+app.post("/journeys/:id", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     const payload = req.body;
     const session = req.cookies.session;
-    const email = await authService.getUserEmailForSession(session);
+    const email = await authService.getUserInSession(session);
+    //put?
     reiseService.delete(id).then(() => {
-        reiseService.add(payload,email).then(()=>{
+        reiseService.add(payload, email).then(() => {
             res.status(204);
-            return res.json({message:"Reise wurde editiert!"});
-        })
+            return res.json({ message: "Reise aktualisiert" });
+        });
     });
 });
-
-app.post("/register", async (req, res) => {
-    const payload = req.body;
-    await authService.create({email: payload.email as string, password: payload.password as string}).then(() => {
-        res.status(201);
-        return res.json({message: "User erstellt"});
-    })
-        .catch((e) => {
-            res.status(500);
-            return res.json({message:"Fehler, User konnte nicht erstellt werden"});
-        });
-
-});
-
 app.post("/login", async (req, res) => {
     const payload = req.body;
-    const sessionId = await authService.login(payload.email, payload.password);
+    const sessionId = await authService.login(payload.username, payload.password);
     if (!sessionId) {
         res.status(401);
-        return res.json({message: "Bad email or password"});
+        return res.json({ message: "Email oder Passwort falsch" });
     }
     res.cookie("session", sessionId, {
         maxAge: 60 * 60 * 1000,
@@ -101,11 +82,27 @@ app.post("/login", async (req, res) => {
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
     });
-    res.json({status: "ok"});
+    res.json({ status: "ok" });
 });
-
-
- */
+//fuer anzeigen logged in user
+app.get("/loggedInUser", checkLogin, async (req, res) => {
+    const session = req.cookies.session;
+    const email = await authService.getUserInSession(session);
+    return res.json({ "email": email });
+});
+app.delete("/logout", async (req, res) => {
+    /*vllt geht auch so:
+     res.cookie("session", sessionId, {
+        expires: Date.now()
+        httpOnly: false,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+    });
+    res.json({status: "ok"});
+       */
+    const session = req.cookies.session;
+    res.clearCookie(session);
+});
 app.use((err, req, res, next) => {
     // format error
     res.status(err.status || 500).json({
@@ -114,5 +111,5 @@ app.use((err, req, res, next) => {
     });
 });
 app.listen(port, () => {
-    console.log(`Expenses app listening at http://localhost:${port}`);
+    console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
