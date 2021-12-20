@@ -105,6 +105,15 @@ app.get("/loggedInUser", checkLogin, async (req, res) => {
 });
 
 app.delete("/logout", async (req, res) => {
+    /*vllt geht auch so:
+     res.cookie("session", sessionId, {
+        expires: Date.now()
+        httpOnly: false,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+    });
+    res.json({status: "ok"});
+       */
     const session = req.cookies.session;
     res.clearCookie(session);
 });
