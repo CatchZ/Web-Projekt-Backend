@@ -10,6 +10,7 @@ export async function up(knex: Knex): Promise<void> {
          */
         .createTable('journeys', function (table) {
             table.uuid('id').primary();
+            //fremdschluessel username table.string('owner')
             table.string('reisename', 255).notNullable();
             table.string('reiseziel', 255).notNullable();
             table.date('startdate').notNullable();

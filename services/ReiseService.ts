@@ -35,6 +35,7 @@ class ReiseService {
         await this.knex("journeys").where({ id: uuid }).delete();
     }
 
+    //todo drauf achten, dass nur die eintraege des users angezeigt werden
     async getAll(email: string | null): Promise<Reise[]> {
         return this.knex("journeys");
     }

@@ -8,15 +8,17 @@ export async function seed(knex: Knex): Promise<void> {
     await knex("reisen").insert([
         {
             id: "1eaae687-ad09-4824-b53d-0d7563d92951",
-            date: "2021-01-01",
-            name: "Brötchen",
-            value: 140,
+            reisename: "TestreiseDE",
+            reiseziel: "DE",
+            startdate: "2021-01-01",
+            enddate: "2021-01-04",
         },
         {
-            id: "24ce658d-9a12-4783-96ad-924464e6ecf0",
-            date: "2021-02-06",
-            name: "Tax",
-            value: 1400,
+            id: "1eaae687-ad09-4824-b53d-0d7563d92951",
+            reisename: "TestreiseGB",
+            reiseziel: "GB",
+            startdate: "2021-02-01",
+            enddate: "2021-02-02",
         },
     ]);
 }
