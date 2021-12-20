@@ -60,7 +60,7 @@ app.post("/journeys", checkLogin, async (req, res) => {
     //reiseService.add(payload, email).then((newEntry) => res.send(newEntry));
 });
 
-app.delete("/journeys/:reiseid", checkLogin, async (req, res) => {
+app.delete("/journeys/:id", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     reiseService.delete(id).then(() => {
         res.status(204);
@@ -68,11 +68,12 @@ app.delete("/journeys/:reiseid", checkLogin, async (req, res) => {
     });
 });
 
-app.post("/journeys/:reiseid", checkLogin, async (req, res) => {
+app.post("/journeys/:id", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     const payload = req.body;
     const session = req.cookies.session;
     const email = await authService.getUserInSession(session);
+    //put?
     reiseService.delete(id).then(() => {
         reiseService.add(payload,email).then(()=>{
             res.status(204);
