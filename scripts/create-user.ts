@@ -18,3 +18,5 @@ prompt.get(["email", "password"], function (err, result) {
             console.error("Error in creating user", e);
         });
 });
+
+//user2: carolinatrack@gmail.com, pw: 123
