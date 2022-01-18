@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const bodyParser = require('body-parser');
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const ReiseService_1 = __importDefault(require("./services/ReiseService"));
 const AuthService_1 = __importDefault(require("./services/AuthService"));
@@ -15,6 +16,9 @@ const port = process.env.PORT || 3000;
 const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
+const nodemailer = require("nodemailer");
+
+
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
@@ -113,3 +117,10 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
+
+/*REGISTRIERUNG*/
+app.post('/send', (req, res) => {
+    console.log(req.body);
+});
+
+/**/
