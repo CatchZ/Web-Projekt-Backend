@@ -17,6 +17,7 @@ const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
 const nodemailer = require("nodemailer");
+const {OpenApiValidator} = require("express-openapi-validator/dist/openapi.validator");
 
 
 app.use((0, cors_1.default)({
@@ -118,9 +119,13 @@ app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
 
+
+
 /*REGISTRIERUNG*/
-app.post('/send', (req, res) => {
-    console.log(req.body);
+app.post('/registrationRequest', (req, res) => {
+    var payload = req.body;
+    console.log("Payload: " + payload);
+
 });
 
 /**/
