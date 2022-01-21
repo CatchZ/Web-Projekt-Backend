@@ -10,18 +10,14 @@ const AuthService_1 = __importDefault(require("./services/AuthService"));
 const knex_1 = require("knex");
 const cors_1 = __importDefault(require("cors"));
 const knexfile_1 = __importDefault(require("./knexfile"));
+const i18next = require('i18next');
+const i18nextMiddleware = require('i18next-express-middleware');
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
 const nodemailer = require("nodemailer");
-const i18next = require('i18next');
-const i18nextMiddleware = require('i18next-express-middleware');
-
-
-
-
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
@@ -120,8 +116,6 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
-
-
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
@@ -136,7 +130,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     await authService.create({
         email: mailData.email,
         password: mailData.password
-    }).then(async () => {
+    }).then(async (json) => {
         const options = {
             from: "wad2122@outlook.de",
             to: mailData.email,
