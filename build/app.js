@@ -115,6 +115,30 @@ app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
 /*REGISTRIERUNG*/
+/*REGISTRIERUNG*/
+app.post("/sendRegistrationMail", async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: "hotmail",
+        auth: {
+            user: "wad2122@outlook.de",
+            pass: "hunter2aberrueckwaert"
+        }
+    });
+    const options = {
+        from: "wad2122@outlook.de",
+        to: "carolinatrack@googlemail.com",
+        subject: "Es geht wieder",
+        text: "Hurra "
+    };
+    transporter.sendMail(options, function (err, info) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("Sent:" + info.response);
+    });
+});
+/*
 app.post("/sendRegistrationMail", async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: "hotmail",
@@ -129,7 +153,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
         subject: "Pls klapp",
         text: "Klappt "
     };
-    transporter.sendMail(options, function (err, info) {
+    transporter.sendMail(options, function (err: any, info: { response: string; }) {
         if (err) {
             console.log(err);
             return;
@@ -138,3 +162,5 @@ app.post("/sendRegistrationMail", async (req, res) => {
         res.status(200);
     });
 });
+
+ */ 
