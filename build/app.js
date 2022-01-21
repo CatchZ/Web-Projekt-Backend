@@ -114,10 +114,9 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
-
-
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    var errormsg = "";
     const mailData = req.body;
     const transporter = nodemailer.createTransport({
         service: "hotmail",
@@ -128,16 +127,18 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: mailData.email, //irgendwas hier wahrscheinlich falsch??
+        to: mailData.email,
         subject: "Empfaengertest",
         text: "Passt "
     };
-    transporter.sendMail(options, function (err, info) {
+    await transporter.sendMail(options, function (err, info) {
         if (err) {
             console.log(err);
-            return;
+            errormsg = err.message;
+            //return;
         }
-        console.log("Sent:" + info.response);
-        res.status(200);
+        else {
+            console.log("Sent:" + info.response);
+        }
     });
 });
