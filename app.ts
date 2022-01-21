@@ -141,31 +141,25 @@ app.listen(port, () => {
 
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
-    var errormsg = "";
-    const mailData = req.body;
-
-    const transporter = nodemailer.createTransport( {
+    const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
-            user: "wad2122@outlook.de",
-            pass: "hunter2aberrueckwaert"
+            user: "wadwadwad@outlook.de",
+            pass: "wad123wad"
         }
     });
-
     const options = {
-        from: "wad2122@outlook.de",
-        to: mailData.email, //irgendwas hier wahrscheinlich falsch??
-        subject: "Empfaengertest",
-        text: "Passt "
+        from: "wadwadwad@outlook.de",
+        to: "carolinatrack@googlemail.com",
+        subject: "Pls klapp",
+        text: "Klappt "
     };
-
-    await transporter.sendMail(options, function (err: any, info: { response: string; }) {
+    transporter.sendMail(options, function (err: any, info: { response: string; }) {
         if (err) {
             console.log(err);
-            errormsg = err.message;
-            //return;
-        } else {
-            console.log("Sent:" + info.response);
+            return;
         }
+        console.log("Sent:" + info.response);
+        res.status(200);
     });
 });
