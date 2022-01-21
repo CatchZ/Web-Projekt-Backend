@@ -114,6 +114,9 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
+
+
+
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
@@ -127,7 +130,8 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: mailData.email,
+       // to: mailData.email,
+        to: "carolinatrack@gmail.com",
         subject: "Empfaengertest",
         text: "Passt "
     };
