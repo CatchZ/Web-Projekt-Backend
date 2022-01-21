@@ -65,7 +65,7 @@ app.delete("/journeys/:id", checkLogin, async (req, res) => {
     const id = req.params.reiseid;
     reiseService.delete(id).then(() => {
         res.status(204);
-        return res.json({message:"Reise gelöscht!"});
+        return res.json({message: "Reise gelöscht!"});
     });
 });
 
@@ -76,9 +76,9 @@ app.post("/journeys/:id", checkLogin, async (req, res) => {
     const email = await authService.getUserInSession(session);
     //put?
     reiseService.delete(id).then(() => {
-        reiseService.add(payload,email).then(()=>{
+        reiseService.add(payload, email).then(() => {
             res.status(204);
-            return res.json({message:"Reise aktualisiert"});
+            return res.json({message: "Reise aktualisiert"});
         })
     });
 });
@@ -141,8 +141,40 @@ app.listen(port, () => {
 
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    var errormsg = "";
+    const transporter = nodemailer.createTransport({
+        service: "hotmail",
+        auth: {
+            user: "wad2122@outlook.de",
+            pass: "hunter2aberrueckwaert"
+        }
+    });
     const mailData = req.body;
-
+    await authService.create({
+        email: mailData.email as string,
+        password: mailData.password as string
+    }).then(async () => {
+        const options = {
+            from: "wad2122@outlook.de",
+            to: mailData.email, //irgendwas hier wahrscheinlich falsch??
+            subject: "Empfängertest",
+            text: "yay "
+        };
+        await transporter.sendMail(options, function (err: any, info: { response: string; }) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log("Sent:" + info.response);
+        });
+        return res.json({message: "Mail sent"});
+    })
+        .catch((e) => {
+            res.status(500);
+            return res.json({message: errormsg});
+        });
+});
+/*
     const transporter = nodemailer.createTransport( {
         service: "hotmail",
         auth: {
@@ -167,3 +199,6 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
 });
 
+
+
+ */

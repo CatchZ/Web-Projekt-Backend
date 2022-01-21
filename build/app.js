@@ -116,7 +116,7 @@ app.listen(port, () => {
 });
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
-    const payload = req.body;
+    var errormsg = "";
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
@@ -124,13 +124,48 @@ app.post("/sendRegistrationMail", async (req, res) => {
             pass: "hunter2aberrueckwaert"
         }
     });
+    const mailData = req.body;
+    await authService.create({
+        email: mailData.email,
+        password: mailData.password
+    }).then(async () => {
+        const options = {
+            from: "wad2122@outlook.de",
+            to: mailData.email,
+            subject: "Empfängertest",
+            text: "yay "
+        };
+        await transporter.sendMail(options, function (err, info) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log("Sent:" + info.response);
+        });
+        return res.json({ message: "Mail sent" });
+    })
+        .catch((e) => {
+        res.status(500);
+        return res.json({ message: errormsg });
+    });
+});
+/*
+    const transporter = nodemailer.createTransport( {
+        service: "hotmail",
+        auth: {
+            user: "wad2122@outlook.de",
+            pass: "hunter2aberrueckwaert"
+        }
+    });
+
     const options = {
         from: "wad2122@outlook.de",
-        to: payload.body.username,
+        to: mailData.email, //irgendwas hier wahrscheinlich falsch??
         subject: "Empfängertest",
         text: "yay "
     };
-    transporter.sendMail(options, function (err, info) {
+
+    transporter.sendMail(options, function (err: any, info: { response: string; }) {
         if (err) {
             console.log(err);
             return;
@@ -138,3 +173,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
         console.log("Sent:" + info.response);
     });
 });
+
+
+
+ */ 
