@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const bodyParser = require('body-parser');
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const ReiseService_1 = __importDefault(require("./services/ReiseService"));
 const AuthService_1 = __importDefault(require("./services/AuthService"));
@@ -17,9 +16,6 @@ const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
 const nodemailer = require("nodemailer");
-const {OpenApiValidator} = require("express-openapi-validator/dist/openapi.validator");
-
-
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
@@ -119,30 +115,28 @@ app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
 
+
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
-    const transporter = nodemailer.createTransport( {
+    const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
             user: "wad2122@outlook.de",
             pass: "hunter2aberrueckwaerts"
         }
     });
-
     const options = {
         from: "wad2122@outlook.de",
         to: "carolinatrack@googlemail.com",
         subject: "Pls klapp",
         text: "Klappt "
     };
-
     transporter.sendMail(options, function (err, info) {
         if (err) {
             console.log(err);
             return;
         }
         console.log("Sent:" + info.response);
+        res.status(200);
     });
 });
-
-/**/

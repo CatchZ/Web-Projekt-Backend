@@ -13,6 +13,7 @@ const port = process.env.PORT || 3000;
 const knex = knexDriver(config);
 const reiseService = new ReiseService(knex);
 const authService = new AuthService();
+const nodemailer = require("nodemailer");
 
 app.use(
     cors({
@@ -136,4 +137,30 @@ app.use(
 
 app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
+});
+
+/*REGISTRIERUNG*/
+app.post("/sendRegistrationMail", async (req, res) => {
+    const transporter = nodemailer.createTransport( {
+        service: "hotmail",
+        auth: {
+            user: "wad2122@outlook.de",
+            pass: "hunter2aberrueckwaerts"
+        }
+    });
+
+    const options = {
+        from: "wad2122@outlook.de",
+        to: "carolinatrack@googlemail.com",
+        subject: "Pls klapp",
+        text: "Klappt "
+    };
+
+    transporter.sendMail(options, function (err: any, info: { response: string; }) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("Sent:" + info.response);
+    });
 });
