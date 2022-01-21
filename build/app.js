@@ -16,6 +16,12 @@ const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
 const nodemailer = require("nodemailer");
+const i18next = require('i18next');
+const i18nextMiddleware = require('i18next-express-middleware');
+
+
+
+
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,

@@ -6,6 +6,10 @@ import AuthService from "./services/AuthService";
 import {knex as knexDriver} from "knex";
 import cors from "cors";
 import config from "./knexfile";
+const i18next = require('i18next');
+const i18nextMiddleware = require('i18next-express-middleware');
+
+
 
 const app = express();
 const port = process.env.PORT || 3000;
