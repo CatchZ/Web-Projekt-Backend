@@ -153,7 +153,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
 
     const options = {
         from: "wad2122@outlook.de",
-        to: mailData.email, //irgendwas hier wahrscheinlich falsch??
+        to: mailData.emailReg, //irgendwas hier wahrscheinlich falsch??
         subject: "Empfaengertest",
         text: "Passt "
     };
