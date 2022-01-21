@@ -141,6 +141,8 @@ app.listen(port, () => {
 
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    const mailData = req.body;
+
     const transporter = nodemailer.createTransport( {
         service: "hotmail",
         auth: {
@@ -151,9 +153,9 @@ app.post("/sendRegistrationMail", async (req, res) => {
 
     const options = {
         from: "wad2122@outlook.de",
-        to: "carolinatrack@googlemail.com",
-        subject: "Pls klapp",
-        text: "Klappt "
+        to: mailData.email, //irgendwas hier wahrscheinlich falsch??
+        subject: "Empfaengertest",
+        text: "Passt "
     };
 
     transporter.sendMail(options, function (err: any, info: { response: string; }) {
