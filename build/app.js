@@ -130,7 +130,6 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-       // to: mailData.email,
         to: "carolinatrack@gmail.com",
         subject: "Empfaengertest",
         text: "Passt "
