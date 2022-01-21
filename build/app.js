@@ -115,8 +115,8 @@ app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
 /*REGISTRIERUNG*/
-/*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    const mailData = req.body;
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
@@ -126,9 +126,9 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: "carolinatrack@googlemail.com",
-        subject: "Es geht wieder",
-        text: "Hurra "
+        to: mailData.email,
+        subject: "Empfängertest",
+        text: "yay "
     };
     transporter.sendMail(options, function (err, info) {
         if (err) {
@@ -138,29 +138,3 @@ app.post("/sendRegistrationMail", async (req, res) => {
         console.log("Sent:" + info.response);
     });
 });
-/*
-app.post("/sendRegistrationMail", async (req, res) => {
-    const transporter = nodemailer.createTransport({
-        service: "hotmail",
-        auth: {
-            user: "wadwadwad@outlook.de",
-            pass: "wad123wad"
-        }
-    });
-    const options = {
-        from: "wadwadwad@outlook.de",
-        to: "carolinatrack@googlemail.com",
-        subject: "Pls klapp",
-        text: "Klappt "
-    };
-    transporter.sendMail(options, function (err: any, info: { response: string; }) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log("Sent:" + info.response);
-        res.status(200);
-    });
-});
-
- */ 
