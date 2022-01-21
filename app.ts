@@ -10,7 +10,6 @@ const i18next = require('i18next');
 const i18nextMiddleware = require('i18next-express-middleware');
 
 
-
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -157,7 +156,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     await authService.create({
         email: mailData.email as string,
         password: mailData.password as string
-    }).then(async (json) => {
+    }).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
             to: mailData.email, //irgendwas hier wahrscheinlich falsch??

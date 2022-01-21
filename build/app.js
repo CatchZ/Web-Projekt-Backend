@@ -130,7 +130,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     await authService.create({
         email: mailData.email,
         password: mailData.password
-    }).then(async (json) => {
+    }).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
             to: mailData.email,
