@@ -141,6 +141,7 @@ app.listen(port, () => {
 
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    var errormsg = "";
     const mailData = req.body;
 
     const transporter = nodemailer.createTransport( {
@@ -158,11 +159,13 @@ app.post("/sendRegistrationMail", async (req, res) => {
         text: "Passt "
     };
 
-    transporter.sendMail(options, function (err: any, info: { response: string; }) {
+    await transporter.sendMail(options, function (err: any, info: { response: string; }) {
         if (err) {
             console.log(err);
-            return;
+            errormsg = err.message;
+            //return;
+        } else {
+            console.log("Sent:" + info.response);
         }
-        console.log("Sent:" + info.response);
     });
 });
