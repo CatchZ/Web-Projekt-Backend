@@ -119,23 +119,9 @@ app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
 
-
-
 /*REGISTRIERUNG*/
-const transporter = nodemailer.createTransport( {
-   service: "hotmail",
-   auth: {
-       user: "wad2122@outlook.com",
-       pass: "hunter2aberrueckwaerts"
-   }
+app.post("/sendRegistrationMail", async (req, res) => {
+    console.log(req.body);
 });
-
-const options = {
-    from: "wad2122@outlook.com",
-    to: "carolinatrack@googlemail.com",
-    subject: "Pls klapp",
-    text: "Hat es geklappt hat es geklappt hat es geklappt hat es geklappt "
-};
-
 
 /**/
