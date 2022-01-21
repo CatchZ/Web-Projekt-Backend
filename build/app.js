@@ -128,8 +128,8 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: mailData.body.email, //irgendwas hier wahrscheinlich falsch??
-        subject: "Empfaengertest2",
+        to: mailData.email, //irgendwas hier wahrscheinlich falsch??
+        subject: "Empfaengertest ohne das body",
         text: "Klappt "
     };
     transporter.sendMail(options, function (err, info) {
