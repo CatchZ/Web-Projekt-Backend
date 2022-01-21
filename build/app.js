@@ -114,15 +114,13 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
-
-
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
             user: "wad2122@outlook.de",
-            pass: "hunter2aberrueckwaerts"
+            pass: "hunter2aberrueckwaert"
         }
     });
     const options = {
@@ -137,6 +135,5 @@ app.post("/sendRegistrationMail", async (req, res) => {
             return;
         }
         console.log("Sent:" + info.response);
-        res.status(200);
     });
 });
