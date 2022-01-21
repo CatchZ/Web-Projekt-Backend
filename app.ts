@@ -145,7 +145,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
         service: "hotmail",
         auth: {
             user: "wad2122@outlook.de",
-            pass: "hunter2aberrueckwaerts"
+            pass: "hunter2aberrueckwaert"
         }
     });
 
