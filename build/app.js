@@ -118,6 +118,7 @@ app.listen(port, () => {
 
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    const mailData = req.body;
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
@@ -127,8 +128,8 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: "carolinatrack@googlemail.com",
-        subject: "Pls klapp",
+        to: mailData.email,
+        subject: "Empfaengertest",
         text: "Klappt "
     };
     transporter.sendMail(options, function (err, info) {
