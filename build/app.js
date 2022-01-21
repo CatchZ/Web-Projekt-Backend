@@ -116,7 +116,7 @@ app.listen(port, () => {
 });
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
-    const mailData = req.body;
+    const payload = req.body;
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
@@ -126,7 +126,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: mailData.email,
+        to: payload.email,
         subject: "Empfängertest",
         text: "yay "
     };
