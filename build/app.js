@@ -126,7 +126,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     });
     const options = {
         from: "wad2122@outlook.de",
-        to: payload.username,
+        to: payload.body.username,
         subject: "Empfängertest",
         text: "yay "
     };
