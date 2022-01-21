@@ -131,6 +131,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
         subject: "Empfaengertest",
         text: "Passt "
     };
+
     await transporter.sendMail(options, function (err, info) {
         if (err) {
             console.log(err);
