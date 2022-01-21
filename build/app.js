@@ -122,10 +122,20 @@ app.listen(port, () => {
 
 
 /*REGISTRIERUNG*/
-app.post('/registrationRequest', (req, res) => {
-    var payload = req.body;
-    console.log("Payload: " + payload);
-
+const transporter = nodemailer.createTransport( {
+   service: "hotmail",
+   auth: {
+       user: "wad2122@outlook.com",
+       pass: "hunter2aberrueckwaerts"
+   }
 });
+
+const options = {
+    from: "wad2122@outlook.com",
+    to: "carolinatrack@googlemail.com",
+    subject: "Pls klapp",
+    text: "Hat es geklappt hat es geklappt hat es geklappt hat es geklappt "
+};
+
 
 /**/
