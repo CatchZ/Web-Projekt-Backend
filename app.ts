@@ -17,6 +17,13 @@ const knex = knexDriver(config);
 const reiseService = new ReiseService(knex);
 const authService = new AuthService();
 const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+    service: "hotmail",
+    auth: {
+        user: "wad2122@outlook.de",
+        pass: "hunter2aberrueckwaert"
+    }
+});
 
 app.use(
     cors({
@@ -142,21 +149,15 @@ app.listen(port, () => {
     console.log(`Reisen-reisen läuft auf http://localhost:${port}`);
 });
 
+
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
-    const transporter = nodemailer.createTransport({
-        service: "hotmail",
-        auth: {
-            user: "wad2122@outlook.de",
-            pass: "hunter2aberrueckwaert"
-        }
-    });
-    const mailData = req.body;
-    await authService.create({email: mailData.username as string, password: mailData.password as string}).then(async () => {
+const payload = req.body;
+    await authService.create({email: payload.username as string, password: payload.password as string}).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: mailData.username, //irgendwas hier wahrscheinlich falsch??
+            to: payload.username, // hier wahrscheinlich falsch??
             subject: "Empfängertest",
             text: "yay "
         };

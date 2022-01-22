@@ -18,6 +18,13 @@ const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
 const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+    service: "hotmail",
+    auth: {
+        user: "wad2122@outlook.de",
+        pass: "hunter2aberrueckwaert"
+    }
+});
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
@@ -119,18 +126,11 @@ app.listen(port, () => {
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
-    const transporter = nodemailer.createTransport({
-        service: "hotmail",
-        auth: {
-            user: "wad2122@outlook.de",
-            pass: "hunter2aberrueckwaert"
-        }
-    });
-    const mailData = req.body;
-    await authService.create({ email: mailData.username, password: mailData.password }).then(async () => {
+    const payload = req.body;
+    await authService.create({ email: payload.username, password: payload.password }).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: mailData.username,
+            to: payload.username,
             subject: "Empfängertest",
             text: "yay "
         };
