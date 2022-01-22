@@ -133,7 +133,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     }).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: mailData.email,
+            to: mailData.username,
             subject: "Empfängertest",
             text: "yay "
         };
