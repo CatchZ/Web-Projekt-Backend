@@ -122,8 +122,8 @@ app.post("/sendRegistrationMail", async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
-            user: "wadwadwad@outlook.de",
-            pass: "wad123wad"
+            user: "wad2122@outlook.de",
+            pass: "hunter2aberrueckwaert"
         }
     });
     const mailData = req.body;
