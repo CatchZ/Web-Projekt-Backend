@@ -153,13 +153,10 @@ app.post("/sendRegistrationMail", async (req, res) => {
         }
     });
     const mailData = req.body;
-    await authService.create({
-        email: mailData.email as string,
-        password: mailData.password as string
-    }).then(async () => {
+    await authService.create({email: mailData.username as string, password: mailData.password as string}).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: mailData.email, //irgendwas hier wahrscheinlich falsch??
+            to: mailData.username, //irgendwas hier wahrscheinlich falsch??
             subject: "Empfängertest",
             text: "yay "
         };
