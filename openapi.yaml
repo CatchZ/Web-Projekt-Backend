@@ -1,0 +1,112 @@
+openapi: 3.0.1
+info:
+  title: Reisen Reisen
+  description: reisen api
+  version: 1.0.0
+externalDocs:
+  description: Github
+  url: http://github.com/example
+servers:
+  - url: https://reisen-reisen.herokuapp.com/
+tags:
+  - name: trips
+    description: what the trips do
+
+paths:
+  /journeys:
+    get:
+      tags:
+        - trip
+      summary: Get all trips
+      responses:
+        "200":
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/journeys'
+    post:
+      tags:
+        - trip
+      summary: book new trip
+      requestBody:
+        description: new trip
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/journey'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/journeys'
+
+
+  /summary:
+    get:
+      tags:
+        - summary
+      summary: Get a summary of all trips
+      responses:
+        "200":
+          description: Successfull request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summary'
+
+  /login:
+    post:
+      tags:
+        - login
+      summary: Log in and get cookie for authentication
+      responses:
+        "200":
+          description: Successfull request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+
+components:
+  schemas:
+    Expense:
+      type: object
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+          format: date-time
+        value:
+          type: integer
+          format: int32
+    SavedExpense:
+      allOf:
+        - $ref: '#/components/schemas/journeys'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+    Summary:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int32
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string

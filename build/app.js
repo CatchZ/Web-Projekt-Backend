@@ -11,7 +11,15 @@ const knex_1 = require("knex");
 const cors_1 = __importDefault(require("cors"));
 const knexfile_1 = __importDefault(require("./knexfile"));
 const i18next = require('i18next');
+const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-express-middleware');
+i18next.use(Backend).use(i18nextMiddleware.LanguageDetector)
+    .init({
+    fallbackLng: 'de',
+    backend: {
+        loadPath: './locales/{{lng}}/translation.json'
+    }
+});
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const knex = (0, knex_1.knex)(knexfile_1.default);
@@ -30,6 +38,7 @@ app.use((0, cors_1.default)({
     credentials: true,
 }));
 app.use(express_1.default.json());
+app.use(i18nextMiddleware.handle(i18next));
 app.use((0, cookie_parser_1.default)());
 app.get('/', async (req, res) => {
     res.send({ headers: req.headers });
