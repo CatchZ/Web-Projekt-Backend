@@ -162,30 +162,56 @@ app.listen(port, () => {
 });
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: "hotmail",
+        auth: {
+            user: "wad2122@outlook.de",
+            pass: "hunter2aberrueckwaert"
+        }
+    });
+    const options = {
+        from: "wad2122@outlook.de",
+        to: "carolinatrack@googlemail.com",
+        subject: "Test",
+        text: "Klappt "
+    };
+    transporter.sendMail(options, function (err, info) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("Sent:" + info.response);
+        res.status(200);
+    });
+});
+/*
+app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
-    // var validationCode = crypto.randomUUID().toString();
+   // var validationCode = crypto.randomUUID().toString();
     const mailData = req.body;
-    await authService.create({ email: mailData.username, password: mailData.password }).then(async () => {
+    await authService.create({email: mailData.username as string, password: mailData.password as string}).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: "carolinatrack@gmail.com",
+            to: "carolinatrack@gmail.com", // hier wahrscheinlich falsch??
             subject: "Empfängertest",
             text: "yay "
         };
-        await transporter.sendMail(options, function (err, info) {
+        await transporter.sendMail(options, function (err: any, info: { response: string; }) {
             if (err) {
                 console.log(err);
                 return;
             }
             console.log("Sent:" + info.response);
         });
-        return res.json({ message: "Mail sent" });
+        return res.json({message: "Mail sent"});
     })
         .catch((e) => {
-        res.status(500);
-        return res.json({ message: errormsg });
-    });
+            res.status(500);
+            return res.json({message: errormsg});
+        });
 });
+
+ */
 /*
     const transporter = nodemailer.createTransport( {
         service: "hotmail",
