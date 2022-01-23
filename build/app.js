@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,9 +29,11 @@ const AuthService_1 = __importDefault(require("./services/AuthService"));
 const knex_1 = require("knex");
 const cors_1 = __importDefault(require("cors"));
 const knexfile_1 = __importDefault(require("./knexfile"));
+const OpenApiValidator = __importStar(require("express-openapi-validator"));
 const i18next = require('i18next');
 const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-express-middleware');
+const app = (0, express_1.default)();
 i18next.use(Backend).use(i18nextMiddleware.LanguageDetector)
     .init({
     fallbackLng: 'de',
@@ -20,8 +41,9 @@ i18next.use(Backend).use(i18nextMiddleware.LanguageDetector)
         loadPath: './locales/{{lng}}/translation.json'
     }
 });
-const app = (0, express_1.default)();
+app.use(i18nextMiddleware.handle(i18next));
 const port = process.env.PORT || 3000;
+//const {t} = useTranslation();
 const knex = (0, knex_1.knex)(knexfile_1.default);
 const reiseService = new ReiseService_1.default(knex);
 const authService = new AuthService_1.default();
@@ -38,7 +60,6 @@ app.use((0, cors_1.default)({
     credentials: true,
 }));
 app.use(express_1.default.json());
-app.use(i18nextMiddleware.handle(i18next));
 app.use((0, cookie_parser_1.default)());
 app.get('/', async (req, res) => {
     res.send({ headers: req.headers });
@@ -122,6 +143,11 @@ app.delete("/logout", async (req, res) => {
     const session = req.cookies.session;
     res.clearCookie(session);
 });
+app.use(OpenApiValidator.middleware({
+    apiSpec: "./openapi.yaml",
+    validateRequests: true,
+    validateResponses: false,
+}));
 app.use((err, req, res, next) => {
     // format error
     res.status(err.status || 500).json({
@@ -135,11 +161,12 @@ app.listen(port, () => {
 /*REGISTRIERUNG*/
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
-    const payload = req.body;
-    await authService.create({ email: payload.username, password: payload.password }).then(async () => {
+    // var validationCode = crypto.randomUUID().toString();
+    const mailData = req.body;
+    await authService.create({ email: mailData.username, password: mailData.password }).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: payload.username,
+            to: mailData.username,
             subject: "Empfängertest",
             text: "yay "
         };

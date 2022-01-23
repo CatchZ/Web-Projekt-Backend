@@ -8,6 +8,8 @@ import cors from "cors";
 import config from "./knexfile";
 import * as OpenApiValidator from "express-openapi-validator";
 import crypto from "crypto";
+import bodyParser from "body-parser";
+
 const i18next = require('i18next');
 const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-express-middleware');
@@ -48,6 +50,7 @@ app.use(
 
 app.use(express.json());
 
+app.use(bodyParser.json());
 
 
 app.use(cookieParser());
