@@ -6,28 +6,12 @@ import AuthService from "./services/AuthService";
 import {knex as knexDriver} from "knex";
 import cors from "cors";
 import config from "./knexfile";
-import * as OpenApiValidator from "express-openapi-validator";
-import crypto from "crypto";
-import bodyParser from "body-parser";
-
 const i18next = require('i18next');
-const Backend = require('i18next-fs-backend');
 const i18nextMiddleware = require('i18next-express-middleware');
 
+
 const app = express();
-
-
-i18next.use(Backend).use(i18nextMiddleware.LanguageDetector)
-    .init({
-        fallbackLng: 'de',
-        backend: {
-            loadPath: './locales/{{lng}}/translation.json'
-        }
-    });
-app.use(i18nextMiddleware.handle(i18next));
-
 const port = process.env.PORT || 3000;
-//const {t} = useTranslation();
 
 const knex = knexDriver(config);
 const reiseService = new ReiseService(knex);
@@ -49,10 +33,6 @@ app.use(
 );
 
 app.use(express.json());
-
-app.use(bodyParser.json());
-
-
 app.use(cookieParser());
 
 app.get('/', async (req, res) => {
@@ -151,14 +131,6 @@ app.delete("/logout", async (req, res) => {
 });
 
 app.use(
-    OpenApiValidator.middleware({
-        apiSpec: "./openapi.yaml",
-        validateRequests: true,
-        validateResponses: false,
-    })
-);
-
-app.use(
     (
         err: HttpError,
         req: express.Request,
@@ -179,15 +151,13 @@ app.listen(port, () => {
 
 
 /*REGISTRIERUNG*/
-
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
-   // var validationCode = crypto.randomUUID().toString();
-    const mailData = req.body;
-    await authService.create({email: mailData.username as string, password: mailData.password as string}).then(async () => {
+    const payload = req.body;
+    await authService.create({email: payload.username as string, password: payload.password as string}).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: "carolinatrack@gmail.com", // hier wahrscheinlich falsch??
+            to: payload.username, // hier wahrscheinlich falsch??
             subject: "Empfängertest",
             text: "yay "
         };
@@ -213,14 +183,12 @@ app.post("/sendRegistrationMail", async (req, res) => {
             pass: "hunter2aberrueckwaert"
         }
     });
-
     const options = {
         from: "wad2122@outlook.de",
         to: mailData.email, //irgendwas hier wahrscheinlich falsch??
         subject: "Empfängertest",
         text: "yay "
     };
-
     transporter.sendMail(options, function (err: any, info: { response: string; }) {
         if (err) {
             console.log(err);
@@ -229,7 +197,4 @@ app.post("/sendRegistrationMail", async (req, res) => {
         console.log("Sent:" + info.response);
     });
 });
-
-
-
  */
