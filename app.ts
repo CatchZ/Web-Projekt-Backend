@@ -5,6 +5,7 @@ import {HttpError} from "express-openapi-validator/dist/framework/types";
 import AuthService from "./services/AuthService";
 import {knex as knexDriver} from "knex";
 import cors from "cors";
+import bodyParser from "body-parser";
 import config from "./knexfile";
 const i18next = require('i18next');
 const i18nextMiddleware = require('i18next-express-middleware');
@@ -21,16 +22,16 @@ const transporter = nodemailer.createTransport({
     service: "hotmail",
     auth: {
         user: "wad2122@outlook.de",
-        pass: "hunter2aberrueckwaert"
+        pass: "neuesKennwort1"
     }
 });
-
 app.use(
     cors({
         origin: true,
         credentials: true,
     })
 );
+app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(cookieParser());

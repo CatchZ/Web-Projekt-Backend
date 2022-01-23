@@ -9,6 +9,7 @@ const ReiseService_1 = __importDefault(require("./services/ReiseService"));
 const AuthService_1 = __importDefault(require("./services/AuthService"));
 const knex_1 = require("knex");
 const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const knexfile_1 = __importDefault(require("./knexfile"));
 const i18next = require('i18next');
 const i18nextMiddleware = require('i18next-express-middleware');
@@ -22,13 +23,14 @@ const transporter = nodemailer.createTransport({
     service: "hotmail",
     auth: {
         user: "wad2122@outlook.de",
-        pass: "hunter2aberrueckwaert"
+        pass: "neuesKennwort1"
     }
 });
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
 }));
+app.use(body_parser_1.default.json());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.get('/', async (req, res) => {
@@ -130,7 +132,7 @@ app.post("/sendRegistrationMail", async (req, res) => {
     await authService.create({ email: payload.username, password: payload.password }).then(async () => {
         const options = {
             from: "wad2122@outlook.de",
-            to: "carolinatrack@gmail.com",
+            to: payload.username,
             subject: "Empfängertest",
             text: "yay "
         };
