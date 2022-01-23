@@ -179,31 +179,7 @@ app.listen(port, () => {
 
 
 /*REGISTRIERUNG*/
-app.post("/sendRegistrationMail", async (req, res) => {
-    const transporter = nodemailer.createTransport({
-        service: "hotmail",
-        auth: {
-            user: "wad2122@outlook.de",
-            pass: "hunter2aberrueckwaert"
-        }
-    });
-    const options = {
-        from: "wad2122@outlook.de",
-        to: "carolinatrack@googlemail.com",
-        subject: "Test",
-        text: "Klappt "
-    };
-    transporter.sendMail(options, function (err: any, info: { response: string; }) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log("Sent:" + info.response);
-        res.status(200);
-    });
-});
 
-/*
 app.post("/sendRegistrationMail", async (req, res) => {
     var errormsg = "";
    // var validationCode = crypto.randomUUID().toString();
@@ -229,8 +205,6 @@ app.post("/sendRegistrationMail", async (req, res) => {
             return res.json({message: errormsg});
         });
 });
-
- */
 /*
     const transporter = nodemailer.createTransport( {
         service: "hotmail",
